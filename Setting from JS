@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
    
 const adv = document.querySelectorAll(".promo__adv img"),
       poster = document.querySelector('.promo__bg'),
-      oldFormatFilms = document.querySelector('.promo__interactive-list'), // поменять название пер
+      oldFormatFilms = document.querySelector('.promo__interactive-list'),
       addForm = document.querySelector('form.add'),
       addImput = addForm.querySelector('.adding__input'),
       checkBox = addForm.querySelector('[type="checkbox"]');
