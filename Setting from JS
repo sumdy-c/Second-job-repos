@@ -1,0 +1,96 @@
+"use strict";
+document.addEventListener('DOMContentLoaded', () => { 
+   
+const adv = document.querySelectorAll(".promo__adv img"),
+      poster = document.querySelector('.promo__bg'),
+      oldFormatFilms = document.querySelector('.promo__interactive-list'), // поменять название пер
+      addForm = document.querySelector('form.add'),
+      addImput = addForm.querySelector('.adding__input'),
+      checkBox = addForm.querySelector('[type="checkbox"]');
+   
+   const movieDB = {
+   movies: [
+      "Логан",
+      "Лига справедливости",
+      "Ла-ла лэнд",
+      "Одержимость",
+      "Скотт Пилигрим против..."
+   ]
+   };
+   //функции
+      const deleteAdd = (arr) => {
+      arr.forEach(item => {
+         item.remove();
+      });
+   };
+   
+   const makeChanges = () => {
+   const genreEdit = document.getElementsByClassName("promo__genre");
+   genreEdit[0].textContent = "драма";
+   };
+
+   const sortArr = (arr) => {
+      arr.sort();
+   };
+
+   const updateMovieList = (films, parent) => {
+      parent.innerHTML = "";
+      sortArr(films);
+      films.forEach((film, i) => {
+         parent.innerHTML += `
+      <li class="promo__interactive-item">${i + 1} - ${film}
+         <div class="delete"></div>
+      </li>
+      `;
+      });
+      document.querySelectorAll('.delete').forEach((btn, i) => {
+         btn.addEventListener('click', () => {
+            btn.parentElement.remove();
+            movieDB.movies.splice(i, 1);
+            updateMovieList(films, parent)
+         });
+      });
+   };
+   //конец обьявления функций
+
+   //меняем картинку
+   poster.style.backgroundImage = 'url("/img/bg.jpg")';
+   
+   //Исходный список фильмов
+   oldFormatFilms.innerHTML = "";
+   sortArr(movieDB.movies);
+   movieDB.movies.forEach((film, i) => {
+   oldFormatFilms.innerHTML += `
+      <li class="promo__interactive-item">${i+1} - ${film}
+         <div class="delete"></div>
+      </li>
+   `;
+   });
+   
+   //корректируем список фильмов исходя из ввода пользователя
+   addForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      let newFilm = addImput.value;
+      const favorite = checkBox.checked;
+      if (newFilm) {
+
+         if (newFilm.length > 21) { 
+            newFilm = `${newFilm.substring(0, 22)}...`;
+         }
+         if (favorite) { 
+            console.log('Добавление фильма в любимые');
+            alert("Фильм добавлен в избранное!");
+         }
+
+      movieDB.movies.push(newFilm);
+      sortArr(movieDB.movies);
+      updateMovieList(movieDB.movies, oldFormatFilms); 
+      }
+      e.target.reset();
+   });
+
+
+   makeChanges();
+   deleteAdd(adv);
+   updateMovieList(movieDB.movies, oldFormatFilms);
+}); //конец документа
